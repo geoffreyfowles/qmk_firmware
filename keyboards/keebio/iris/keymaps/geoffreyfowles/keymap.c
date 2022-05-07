@@ -61,6 +61,10 @@ enum custom_keycodes {
 #define GAMENUM MO(_GAMING_NUM)
 #define GAME_FN MO(_GAMING_FN)
 
+#define MOD_MIN LALT_T(KC_MINS)
+#define MOD_LPR LGUI_T(KC_LPRN)
+#define MOD_RPR LCTL_T(KC_RPRN)
+
 #define EXTRAFN TG(_EXTRA_FN)
 #define OS_LSFT OSM(MOD_LSFT)
 #define OS_LALT OSM(MOD_LALT)
@@ -149,7 +153,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,KC_PLUS ,KC_EQL  ,KC_LCBR ,KC_RCBR ,_______ ,                   KC_INS  ,KC_PSCR ,KC_SLCK ,KC_PAUS ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_UNDS ,KC_MINS ,KC_LPRN ,KC_RPRN ,_______ ,                   KC_LEFT ,KC_DOWN ,KC_UP   ,KC_RGHT ,KC_APP  ,_______ ,
+     _______ ,KC_UNDS ,MOD_MIN ,MOD_LPR ,MOD_RPR ,_______ ,                   KC_LEFT ,KC_DOWN ,KC_UP   ,KC_RGHT ,KC_APP  ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,KC_TILD ,KC_GRV  ,KC_LBRC ,KC_RBRC ,_______ ,_______ , _______ ,KC_HOME ,KC_PGDN ,KC_PGUP ,KC_END  ,_______ ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
@@ -357,6 +361,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
             } else {
                 unregister_code(keycode);
+                return false;
+            }
+            break;
+
+        case MOD_LPR:
+            if (record->event.pressed && record->tap.count) {
+                tap_code16(KC_LPRN);
+                return false;
+            }
+            break;
+
+        case MOD_RPR:
+            if (record->event.pressed && record->tap.count) {
+                tap_code16(KC_RPRN);
                 return false;
             }
             break;
