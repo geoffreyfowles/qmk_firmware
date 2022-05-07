@@ -319,6 +319,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 
+        case RGB_VAI:
+        case RGB_VAD:
+            if (record->event.pressed) {
+                switch (keycode) {
+                    case RGB_VAI:
+                        rgb_matrix_increase_val();
+                        if (rgb_matrix_get_val() > RGBLIGHT_LIMIT_VAL) {
+                            rgb_matrix_sethsv(rgb_matrix_get_hue(), rgb_matrix_get_sat(), RGBLIGHT_LIMIT_VAL);
+                        }
+                        break;
+                    case RGB_VAD:
+                        rgb_matrix_decrease_val();
+                        break;
+                }
+                base_val = rgb_matrix_get_val();
+            }
+            return false;
+
         case KC_PDOT:
         case KC_EQL:
         case KC_GRV:
