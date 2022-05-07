@@ -222,7 +222,7 @@ void save_current_hsv(void) {
 
 void set_layer_color(void) {
     if (get_oneshot_mods()) {
-        rgb_matrix_sethsv_noeeprom(127, 255, rgb_matrix_get_val());
+        rgb_matrix_sethsv_noeeprom(106, 255, rgb_matrix_get_val());
     } else if (caps_on) {
         rgb_matrix_sethsv_noeeprom(43, 255, rgb_matrix_get_val());
     } else if (gaming_on) {
