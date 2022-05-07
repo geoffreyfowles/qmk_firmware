@@ -20,9 +20,9 @@ const keypos_t PROGMEM hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
 };
 #endif
 
-// clang-format off
 enum layer_names {
-    _COLEMAK_DH = 0,
+    _BASE = 0,
+    _BASE_MIRRORED,
     _GAMING,
     _GAMING_NUM,
     _GAMING_FN,
@@ -38,25 +38,25 @@ enum custom_keycodes {
 };
 
 // renamed keycodes
-#define GAMING  TG(_GAMING)
-#define LT_CAPS LT(0, KC_CAPS)
-#define LT_PB_1 LT(0, PB_1)  // this has to be a layer tap for it to be recognized by ahk for some reason. simply putting the PB_1 keycode in the keymap doesn't seem to work
+#define GAMING TG(_GAMING)
 
-#define LT_A    LT(_WIN_SHORTCUTS, KC_A)
-#define MOD_R   LALT_T(KC_R)
-#define MOD_S   LGUI_T(KC_S)
-#define MOD_T   LCTL_T(KC_T)
-#define MOD_N   RCTL_T(KC_N)
-#define MOD_E   RGUI_T(KC_E)
-#define MOD_I   RALT_T(KC_I)
+#define LT_A LT(_WIN_SHORTCUTS, KC_A)
+#define LT_Z LT(_BASE_MIRRORED, KC_Z)
+#define LT_SLSH LT(_BASE_MIRRORED, KC_SLSH)
+#define MOD_R LALT_T(KC_R)
+#define MOD_S LGUI_T(KC_S)
+#define MOD_T LCTL_T(KC_T)
+#define MOD_N RCTL_T(KC_N)
+#define MOD_E RGUI_T(KC_E)
+#define MOD_I RALT_T(KC_I)
 
-#define LT_ESC  LT(_OSM_SHORTCUTS_EXTRA_FN, KC_ESC)
+#define LT_ESC LT(_OSM_SHORTCUTS_EXTRA_FN, KC_ESC)
 #define SFT_SPC LSFT_T(KC_SPC)
-#define LT_TAB  LT(_NUM_FN,        KC_TAB)
+#define LT_TAB LT(_NUM_FN, KC_TAB)
 
-#define LT_ENT  LT(_SYMBOLS_NAV,      KC_ENT)
+#define LT_ENT LT(_SYMBOLS_NAV, KC_ENT)
 #define SFT_BSP RSFT_T(KC_BSPC)
-#define LT_DEL  LT(_MOUSE_MEDIA_MODS, KC_DEL)
+#define LT_DEL LT(_MOUSE_MEDIA_MODS, KC_DEL)
 
 #define GAMENUM MO(_GAMING_NUM)
 #define GAME_FN MO(_GAMING_FN)
@@ -73,31 +73,44 @@ enum custom_keycodes {
 #define OS_LGUI OSM(MOD_LGUI)
 #define OS_LCTL OSM(MOD_LCTL)
 
-#define UNDO    LCTL(KC_Z)
-#define CUT     LCTL(KC_X)
-#define COPY    LCTL(KC_C)
-#define PASTE   LCTL(KC_V)
+#define COPY LCTL(KC_C)
+#define PASTE LCTL(KC_V)
 
-#define WIN_L   LGUI(KC_LEFT)
-#define WIN_D   LGUI(KC_DOWN)
-#define WIN_U   LGUI(KC_UP)
-#define WIN_R   LGUI(KC_RGHT)
+#define WIN_LFT LGUI(KC_LEFT)
+#define WIN_DWN LGUI(KC_DOWN)
+#define WIN_UP LGUI(KC_UP)
+#define WIN_RGT LGUI(KC_RGHT)
 #define W_SFT_L LGUI(LSFT(KC_LEFT))
 #define W_SFT_R LGUI(LSFT(KC_RGHT))
-#define MICMUTE LGUI(LSFT(KC_A))  // powertoys default
+#define MICMUTE LGUI(LSFT(KC_A)) // powertoys default
 
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [_COLEMAK_DH] = LAYOUT(
+  [_BASE] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_F13  ,KC_F14  ,KC_F15  ,KC_F16  ,KC_F17  ,KC_F18  ,                   KC_F19  ,KC_F20  ,KC_F21  ,KC_F22  ,KC_F23  ,KC_F24  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,KC_Q    ,KC_W    ,KC_F    ,KC_P    ,KC_B    ,                   KC_J    ,KC_L    ,KC_U    ,KC_Y    ,KC_SCLN ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     SH_OS   ,LT_A    ,MOD_R   ,MOD_S   ,MOD_T   ,KC_G    ,                   KC_M    ,MOD_N   ,MOD_E   ,MOD_I   ,KC_O    ,SH_OS   ,
+     _______ ,LT_A    ,MOD_R   ,MOD_S   ,MOD_T   ,KC_G    ,                   KC_M    ,MOD_N   ,MOD_E   ,MOD_I   ,KC_O    ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_Z    ,KC_X    ,KC_C    ,KC_D    ,KC_V    ,DM_PLY1 , DM_REC1 ,KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,KC_SLSH ,_______ ,
+     _______ ,LT_Z    ,KC_X    ,KC_C    ,KC_D    ,KC_V    ,DM_PLY1 , DM_REC1 ,KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,LT_SLSH ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     LT_ESC  ,SFT_SPC ,LT_TAB  ,          LT_ENT  ,SFT_BSP ,LT_DEL
+                                // └────────┴────────┴────────┘         └────────┴────────┴────────┘
+  ),
+
+  [_BASE_MIRRORED] = LAYOUT(
+  //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
+     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+  //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
+     _______ ,KC_SCLN ,KC_Y    ,KC_U    ,KC_L    ,KC_J    ,                   KC_B    ,KC_P    ,KC_F    ,KC_W    ,KC_Q    ,_______ ,
+  //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
+     _______ ,KC_O    ,MOD_I   ,MOD_E   ,MOD_N   ,KC_M    ,                   KC_G    ,MOD_T   ,MOD_S   ,MOD_R   ,LT_A    ,_______ ,
+  //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+     _______ ,KC_SLSH ,KC_DOT  ,KC_COMM ,KC_H    ,KC_K    ,DM_REC1 , DM_PLY1 ,KC_V    ,KC_D    ,KC_C    ,KC_X    ,KC_Z    ,_______ ,
+  //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
+                                    LT_DEL  ,SFT_BSP ,LT_ENT  ,          LT_TAB  ,SFT_SPC ,LT_ESC
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
   ),
 
@@ -203,9 +216,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,_______ ,W_SFT_L ,WIN_U   ,W_SFT_R ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+     _______ ,_______ ,W_SFT_L ,WIN_UP  ,W_SFT_R ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,_______ ,WIN_L   ,WIN_D   ,WIN_R   ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+     _______ ,_______ ,WIN_LFT ,WIN_DWN ,WIN_RGT ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,_______ ,_______ ,_______ ,MICMUTE ,_______ ,_______ , _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
@@ -229,16 +242,22 @@ static bool    alt_pressed = false;
 enum combos {
     CAPS_WORD_COMBO,
     LOCK_COMBO,
+    SWAP_HANDS_COMBO,
+    SWAP_HANDS_COMBO_2,
     COMBO_LENGTH,
 };
 uint16_t COMBO_LEN = COMBO_LENGTH;
 
-const uint16_t PROGMEM caps_word_combo[] = {SFT_SPC, SFT_BSP, COMBO_END};
-const uint16_t PROGMEM lock_combo[]      = {KC_P, KC_B, COMBO_END};
+const uint16_t PROGMEM caps_word_combo[]    = {SFT_SPC, SFT_BSP, COMBO_END};
+const uint16_t PROGMEM lock_combo[]         = {KC_P, KC_B, COMBO_END};
+const uint16_t PROGMEM swap_hands_combo[]   = {LT_TAB, DM_PLY1, COMBO_END};
+const uint16_t PROGMEM swap_hands_combo_2[] = {LT_ENT, DM_REC1, COMBO_END};
 
 combo_t key_combos[] = {
-    [CAPS_WORD_COMBO] = COMBO_ACTION(caps_word_combo),
-    [LOCK_COMBO]      = COMBO_ACTION(lock_combo),
+    [CAPS_WORD_COMBO]    = COMBO_ACTION(caps_word_combo),
+    [LOCK_COMBO]         = COMBO_ACTION(lock_combo),
+    [SWAP_HANDS_COMBO]   = COMBO_ACTION(swap_hands_combo),
+    [SWAP_HANDS_COMBO_2] = COMBO_ACTION(swap_hands_combo_2),
 };
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
@@ -253,6 +272,14 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
                 tap_code16(LGUI(KC_L));
                 rgb_matrix_disable_noeeprom();
                 locked = true;
+            }
+            break;
+        case SWAP_HANDS_COMBO:
+        case SWAP_HANDS_COMBO_2:
+            if (pressed) {
+                layer_on(_BASE_MIRRORED);
+            } else {
+                layer_off(_BASE_MIRRORED);
             }
             break;
     }
