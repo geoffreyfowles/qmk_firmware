@@ -52,13 +52,13 @@ enum custom_keycodes {
 #define LT_D LT(_BASE_MIRRORED, KC_D)
 #define LT_H LT(_BASE_MIRRORED, KC_H)
 
-#define LT_ESC LT(_MODS, KC_ESC)
+#define LT_ESC LSFT_T(KC_ESC)
 #define LT_SPC LT(_NUM_FN, KC_SPC)
 #define LT_TAB LT(_SHORTCUTS, KC_TAB)
 
 #define LT_ENT LT(_MOUSE_MEDIA_MISC, KC_ENT)
 #define LT_BSP LT(_SYMBOLS_NAV, KC_BSPC)
-#define LT_DEL KC_DEL // haven't found a good use for this layer yet
+#define LT_DEL LSFT_T(KC_DEL)
 
 #define GAMENUM MO(_GAMING_NUM)
 #define GAME_FN MO(_GAMING_FN)
@@ -228,7 +228,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ , _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    _______ ,_______ ,RESET   ,          _______ ,_______ ,_______
+                                    _______ ,_______ ,_______ ,          _______ ,_______ ,_______
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
   ),
 
@@ -261,6 +261,7 @@ enum combos {
     LOCK_COMBO,
     SWAP_HANDS_COMBO,
     SWAP_HANDS_COMBO_2,
+    MODS_LAYER_COMBO,
     SWAP_HANDS_COMBO_GAMING,
     ALT_GAMING_COMBO,
     COMBO_LENGTH,
@@ -271,6 +272,7 @@ const uint16_t PROGMEM caps_word_combo[]         = {MOD_T, MOD_N, COMBO_END};
 const uint16_t PROGMEM lock_combo[]              = {KC_P, KC_B, COMBO_END};
 const uint16_t PROGMEM swap_hands_combo[]        = {LT_TAB, DM_PLY1, COMBO_END};
 const uint16_t PROGMEM swap_hands_combo_2[]      = {LT_ENT, DM_REC1, COMBO_END};
+const uint16_t PROGMEM mods_layer_combo[]        = {LT_ESC, LT_SPC, COMBO_END};
 const uint16_t PROGMEM swap_hands_combo_gaming[] = {GAMENUM, DM_PLY1, COMBO_END};
 const uint16_t PROGMEM alt_gaming_combo[]        = {GAME_FN, KC_SPC, COMBO_END};
 
@@ -280,6 +282,7 @@ combo_t key_combos[] = {
     [LOCK_COMBO]              = COMBO_ACTION(lock_combo),
     [SWAP_HANDS_COMBO]        = COMBO(swap_hands_combo, MO(_BASE_MIRRORED)),
     [SWAP_HANDS_COMBO_2]      = COMBO(swap_hands_combo_2, MO(_BASE_MIRRORED)),
+    [MODS_LAYER_COMBO]        = COMBO(mods_layer_combo, MO(_MODS)),
     [SWAP_HANDS_COMBO_GAMING] = COMBO(swap_hands_combo_gaming, MO(_GAMING_MIRRORED)),
     [ALT_GAMING_COMBO]        = COMBO(alt_gaming_combo, KC_LALT),
 };
