@@ -53,9 +53,9 @@ enum custom_keycodes {
 #define SFT_SPC LSFT_T(KC_SPC)
 #define LT_CAPS LT(_NUM_FN,           KC_CAPS)
 
-#define LT_DEL  LT(_SYMBOLS_NAV, KC_DEL)
+#define LT_ENT  LT(_SYMBOLS_NAV, KC_ENT)
 #define SFT_BSP RSFT_T(KC_BSPC)
-#define LT_ENT  LT(_MOUSE,       KC_ENT)
+#define LT_DEL  LT(_MOUSE,       KC_DEL)
 
 #define LT_DOT  LT(_SYMBOLS_NAV, KC_PDOT)
 
@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      CLR_MOD ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,DM_PLY1 , DM_REC1 ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_APP  ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    LT_PB_1 ,SFT_SPC ,LT_CAPS ,          LT_DEL  ,SFT_BSP ,LT_ENT
+                                    LT_PB_1 ,SFT_SPC ,LT_CAPS ,          LT_ENT  ,SFT_BSP ,LT_DEL
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
   ),
 
