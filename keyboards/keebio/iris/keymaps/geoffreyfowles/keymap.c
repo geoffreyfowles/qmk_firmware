@@ -434,8 +434,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
-void keyboard_post_init_user(void) { rgb_matrix_sethsv(base_hue, base_sat, base_val); }
-
 void dynamic_macro_record_start_user(void) { rgb_matrix_mode_noeeprom(RGB_MATRIX_BREATHING); }
 
 void dynamic_macro_record_end_user(int8_t direction) { rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR); }
