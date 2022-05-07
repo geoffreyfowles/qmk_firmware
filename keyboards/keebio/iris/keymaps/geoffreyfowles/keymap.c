@@ -21,7 +21,7 @@ const keypos_t PROGMEM hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
 
 // clang-format off
 enum layer_names {
-    _BASE = 0,
+    _COLEMAK_DH = 0,
     _GAMING,
     _GAMING_NUM,
     _GAMING_FN,
@@ -43,12 +43,12 @@ enum custom_keycodes {
 #define LT_CAPS LT(0, KC_CAPS)
 #define LT_ESC  LT(0, KC_ESC)
 
-#define MOD_S   LALT_T(KC_S)
-#define MOD_D   LGUI_T(KC_D)
-#define MOD_F   LCTL_T(KC_F)
-#define MOD_J   RCTL_T(KC_J)
-#define MOD_K   RGUI_T(KC_K)
-#define MOD_L   RALT_T(KC_L)
+#define MOD_R   LALT_T(KC_R)
+#define MOD_S   LGUI_T(KC_S)
+#define MOD_T   LCTL_T(KC_T)
+#define MOD_N   RCTL_T(KC_N)
+#define MOD_E   RGUI_T(KC_E)
+#define MOD_I   RALT_T(KC_I)
 
 #define LT_PB_1 LT(_OSM_SHORTCUTS, PB_1)
 #define SFT_SPC LSFT_T(KC_SPC)
@@ -77,15 +77,15 @@ enum custom_keycodes {
 #define PASTE  LCTL(KC_V)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [_BASE] = LAYOUT(
+  [_COLEMAK_DH] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      ESCLOCK ,KC_P1   ,KC_P2   ,KC_P3   ,KC_P4   ,KC_P5   ,                   KC_P6   ,KC_P7   ,KC_P8   ,KC_P9   ,KC_P0   ,GAMING  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     LT_CAPS ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,KC_T    ,                   KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_BSLS ,
+     LT_CAPS ,KC_Q    ,KC_W    ,KC_F    ,KC_P    ,KC_B    ,                   KC_J    ,KC_L    ,KC_U    ,KC_Y    ,KC_SCLN ,KC_BSLS ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     LT_ESC  ,KC_A    ,MOD_S   ,MOD_D   ,MOD_F   ,KC_G    ,                   KC_H    ,MOD_J   ,MOD_K   ,MOD_L   ,KC_SCLN ,KC_QUOT ,
+     LT_ESC  ,KC_A    ,MOD_R   ,MOD_S   ,MOD_T   ,KC_G    ,                   KC_M    ,MOD_N   ,MOD_E   ,MOD_I   ,KC_O    ,KC_QUOT ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     SH_OS   ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,DM_PLY1 , DM_REC1 ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,SH_OS   ,
+     SH_OS   ,KC_Z    ,KC_X    ,KC_C    ,KC_D    ,KC_V    ,DM_PLY1 , DM_REC1 ,KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,KC_SLSH ,SH_OS   ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     LT_PB_1 ,SFT_SPC ,LT_TAB  ,          LT_ENT  ,SFT_BSP ,LT_DEL
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
@@ -95,11 +95,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_ESC  ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_LOCK ,KC_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+     KC_LOCK ,KC_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,                   KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_LALT ,KC_LSFT ,KC_A    ,KC_S    ,KC_D    ,KC_F    ,                   _______ ,KC_J    ,KC_K    ,KC_L    ,_______ ,_______ ,
+     KC_LALT ,KC_LSFT ,KC_A    ,KC_S    ,KC_D    ,KC_F    ,                   KC_H    ,KC_J    ,KC_K    ,KC_L    ,KC_SCLN ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     SH_OS   ,KC_LCTL ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,_______ , _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+     SH_OS   ,KC_LCTL ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,_______ , _______ ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     GAME_FN ,KC_SPC  ,GAMENUM ,          _______ ,KC_BSPC ,_______
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
@@ -284,39 +284,39 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             break;
+        case MOD_R:
+            if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
+                tap_code16(LSFT(KC_R));
+                return false;
+            }
+            break;
         case MOD_S:
             if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
                 tap_code16(LSFT(KC_S));
                 return false;
             }
             break;
-        case MOD_D:
+        case MOD_T:
             if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
-                tap_code16(LSFT(KC_D));
+                tap_code16(LSFT(KC_T));
                 return false;
             }
             break;
-        case MOD_F:
+        case MOD_N:
             if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
-                tap_code16(LSFT(KC_F));
+                tap_code16(LSFT(KC_N));
                 return false;
             }
             break;
-        case MOD_J:
+        case MOD_E:
             if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
-                tap_code16(LSFT(KC_J));
+                tap_code16(LSFT(KC_E));
                 return false;
             }
             break;
-        case MOD_K:
+        case MOD_I:
             if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
-                tap_code16(LSFT(KC_K));
-                return false;
-            }
-            break;
-        case MOD_L:
-            if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
-                tap_code16(LSFT(KC_L));
+                tap_code16(LSFT(KC_I));
                 return false;
             }
             break;
