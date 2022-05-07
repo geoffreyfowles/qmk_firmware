@@ -42,10 +42,11 @@ enum custom_keycodes {
 #define GAMING  TG(_GAMING)
 #define EXTRAFN TO(_EXTRA_FN)
 
-#define UNDO  LCTL(KC_Z)
-#define CUT   LCTL(KC_X)
-#define COPY  LCTL(KC_C)
-#define PASTE LCTL(KC_V)
+#define CA_TAB LCTL(LALT(KC_TAB))
+#define UNDO   LCTL(KC_Z)
+#define CUT    LCTL(KC_X)
+#define COPY   LCTL(KC_C)
+#define PASTE  LCTL(KC_V)
 
 #define MOD_S   LALT_T(KC_S)
 #define MOD_D   LGUI_T(KC_D)
@@ -179,7 +180,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,OS_LSFT ,OS_LALT ,OS_LGUI ,OS_LCTL ,_______ ,                   KC_MPRV ,KC_VOLD ,KC_VOLU ,KC_MNXT ,KC_MPLY ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,UNDO    ,CUT     ,COPY    ,PASTE   ,_______ ,_______ , _______ ,_______ ,KC_BRID ,KC_BRIU ,_______ ,_______ ,_______ ,
+     CA_TAB  ,UNDO    ,CUT     ,COPY    ,PASTE   ,_______ ,_______ , _______ ,_______ ,KC_BRID ,KC_BRIU ,_______ ,_______ ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     _______ ,_______ ,_______ ,          _______ ,_______ ,_______
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
