@@ -174,9 +174,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_OSM_SHORTCUTS_MEDIA_LIGHTS] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,RGB_HUI ,RGB_SAI ,RGB_VAI ,HSV_TXT ,_______ ,
+     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,_______ ,_______ ,EXTRAFN ,_______ ,_______ ,                   _______ ,RGB_HUD ,RGB_SAD ,RGB_VAD ,RGB_TOG ,_______ ,
+     _______ ,_______ ,_______ ,EXTRAFN ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      KC_ENT  ,OS_LSFT ,OS_LALT ,OS_LGUI ,OS_LCTL ,_______ ,                   KC_MPRV ,KC_VOLD ,KC_VOLU ,KC_MNXT ,KC_MPLY ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -205,7 +205,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 static uint8_t base_hue = 106;
 static uint8_t base_sat = 255;
 static uint8_t base_val = RGBLIGHT_LIMIT_VAL;
-static char    current_hsv[12];
 
 static uint8_t mod_state;
 static uint8_t osm_state;
@@ -213,13 +212,6 @@ static uint8_t total_mod_state;
 static bool    caps_on   = false;
 static bool    gaming_on = false;
 static bool    locked    = false;
-
-void save_current_hsv(void) {
-    base_hue = rgb_matrix_get_hue();
-    base_sat = rgb_matrix_get_sat();
-    base_val = rgb_matrix_get_val();
-    snprintf(current_hsv, 12, "%d,%d,%d", base_hue, base_sat, base_val);
-}
 
 void set_layer_color(void) {
     if (get_oneshot_mods()) {
@@ -305,42 +297,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 
-        case RGB_HUI ... RGB_VAD:
-            if (record->event.pressed) {
-                switch (keycode) {
-                    case RGB_HUI:
-                        rgb_matrix_increase_hue();
-                        break;
-                    case RGB_HUD:
-                        rgb_matrix_decrease_hue();
-                        break;
-                    case RGB_SAI:
-                        rgb_matrix_increase_sat();
-                        break;
-                    case RGB_SAD:
-                        rgb_matrix_decrease_sat();
-                        break;
-                    case RGB_VAI:
-                        rgb_matrix_increase_val();
-                        if (rgb_matrix_get_val() > RGBLIGHT_LIMIT_VAL) {
-                            rgb_matrix_sethsv(rgb_matrix_get_hue(), rgb_matrix_get_sat(), RGBLIGHT_LIMIT_VAL);
-                        }
-                        break;
-                    case RGB_VAD:
-                        rgb_matrix_decrease_val();
-                        break;
-                }
-
-                save_current_hsv();
-            }
-            return false;
-
-        case HSV_TXT:
-            if (record->event.pressed) {
-                send_string(current_hsv);
-            }
-            break;
-
         case KC_PDOT:
         case KC_EQL:
         case KC_GRV:
@@ -420,10 +376,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
-void keyboard_post_init_user(void) {
-    rgb_matrix_sethsv(base_hue, base_sat, base_val);
-    snprintf(current_hsv, 12, "%d,%d,%d", base_hue, base_sat, base_val);
-}
+void keyboard_post_init_user(void) { rgb_matrix_sethsv(base_hue, base_sat, base_val); }
 
 void dynamic_macro_record_start_user(void) { rgb_matrix_mode_noeeprom(RGB_MATRIX_BREATHING); }
 
