@@ -222,9 +222,10 @@ static uint8_t base_val = RGBLIGHT_LIMIT_VAL;
 static uint8_t mod_state;
 static uint8_t osm_state;
 static uint8_t total_mod_state;
-static bool    caps_on   = false;
-static bool    gaming_on = false;
-static bool    locked    = false;
+static bool    caps_on     = false;
+static bool    gaming_on   = false;
+static bool    locked      = false;
+static bool    alt_pressed = false;
 
 void set_layer_color(void) {
     if (get_oneshot_mods()) {
@@ -383,6 +384,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case CLR_MOD:
             if (record->event.pressed) {
                 clear_all_mods();
+            }
+            break;
+
+        case S_A_TAB:
+        case ALT_TAB:
+            if (record->event.pressed) {
+                register_code(KC_LALT);
+                alt_pressed = true;
+            }
+            break;
+
+        case LT_ESC:
+            if (!record->event.pressed && alt_pressed) {
+                unregister_code(KC_LALT);
+                alt_pressed = false;
             }
             break;
     }
