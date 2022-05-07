@@ -40,14 +40,8 @@ enum custom_keycodes {
 // renamed keycodes
 #define ESCLOCK LT(0, KC_ESC2)  // have to use custom keycode to avoid conflict with LT_ESC
 #define GAMING  TG(_GAMING)
-#define EXTRAFN TG(_EXTRA_FN)
 #define LT_TAB  LT(0, KC_TAB)
 #define LT_ESC  LT(0, KC_ESC)
-
-#define UNDO   LCTL(KC_Z)
-#define CUT    LCTL(KC_X)
-#define COPY   LCTL(KC_C)
-#define PASTE  LCTL(KC_V)
 
 #define MOD_S   LALT_T(KC_S)
 #define MOD_D   LGUI_T(KC_D)
@@ -64,13 +58,19 @@ enum custom_keycodes {
 #define SFT_BSP RSFT_T(KC_BSPC)
 #define LT_DEL  LT(_MOUSE_MEDIA_MODS, KC_DEL)
 
+#define GAMENUM MO(_GAMING_NUM)
+#define GAME_FN MO(_GAMING_FN)
+
+#define EXTRAFN TG(_EXTRA_FN)
 #define OS_LSFT OSM(MOD_LSFT)
 #define OS_LALT OSM(MOD_LALT)
 #define OS_LGUI OSM(MOD_LGUI)
 #define OS_LCTL OSM(MOD_LCTL)
 
-#define GAMENUM MO(_GAMING_NUM)
-#define GAME_FN MO(_GAMING_FN)
+#define UNDO   LCTL(KC_Z)
+#define CUT    LCTL(KC_X)
+#define COPY   LCTL(KC_C)
+#define PASTE  LCTL(KC_V)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT(
