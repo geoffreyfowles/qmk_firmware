@@ -41,6 +41,7 @@ enum custom_keycodes {
 #define LOCK    LGUI(KC_L)
 #define GAMING  TG(_GAMING)
 #define EXTRAFN TG(_EXTRA_FN)
+#define LT_TAB  LT(0, KC_TAB)
 
 #define CA_TAB LCTL(LALT(KC_TAB))
 #define UNDO   LCTL(KC_Z)
@@ -76,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      LOCK    ,KC_1    ,KC_2    ,KC_3    ,KC_4    ,KC_5    ,                   KC_6    ,KC_7    ,KC_8    ,KC_9    ,KC_0    ,GAMING  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,KC_T    ,                   KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_BSLS ,
+     LT_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,KC_T    ,                   KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_BSLS ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      KC_ESC  ,KC_A    ,MOD_S   ,MOD_D   ,MOD_F   ,KC_G    ,                   KC_H    ,MOD_J   ,MOD_K   ,MOD_L   ,KC_SCLN ,KC_QUOT ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -244,6 +245,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 rgb_matrix_disable_noeeprom();
                 locked = true;
             }
+
+        case LT_TAB:
+            // tab on press, alt+tab on hold
+            if (record->event.pressed && !record->tap.count) {
+                tap_code16(LALT(KC_TAB));
+                return false;
+            }
+            break;
 
         case LT_CAPS:
             if (record->event.pressed && record->tap.count) {
