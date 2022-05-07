@@ -202,7 +202,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-static uint8_t base_hue = 142;
+static uint8_t base_hue = 106;
 static uint8_t base_sat = 255;
 static uint8_t base_val = RGBLIGHT_LIMIT_VAL;
 static char    current_hsv[12];
@@ -223,7 +223,7 @@ void save_current_hsv(void) {
 
 void set_layer_color(void) {
     if (get_oneshot_mods()) {
-        rgb_matrix_sethsv_noeeprom(106, 255, rgb_matrix_get_val());
+        rgb_matrix_sethsv_noeeprom(142, 255, rgb_matrix_get_val());
     } else if (caps_on) {
         rgb_matrix_sethsv_noeeprom(43, 255, rgb_matrix_get_val());
     } else if (gaming_on) {
