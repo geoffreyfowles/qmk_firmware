@@ -149,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,KC_F11  ,KC_F9   ,KC_F8   ,KC_F7   ,_______ ,                   _______ ,KC_7    ,KC_8    ,KC_9    ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_F10  ,KC_F6   ,KC_F5   ,KC_F4   ,_______ ,                   _______ ,KC_4    ,KC_5    ,KC_6    ,KC_0    ,_______ ,
+     _______ ,KC_F10  ,KC_F6   ,KC_F5   ,KC_F4   ,PB_1    ,                   _______ ,KC_4    ,KC_5    ,KC_6    ,KC_0    ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,KC_F12  ,KC_F3   ,KC_F2   ,KC_F1   ,_______ ,_______ , _______ ,_______ ,KC_1    ,KC_2    ,KC_3    ,_______ ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
@@ -177,7 +177,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,KC_WH_U ,KC_WH_L ,KC_MS_U ,KC_WH_R ,_______ ,                   _______ ,KC_BRID ,KC_BRIU ,RGB_VAD ,RGB_VAI ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_WH_D ,KC_MS_L ,KC_MS_D ,KC_MS_R ,_______ ,                   _______ ,KC_RCTL ,KC_RGUI ,KC_RALT ,KC_RSFT ,_______ ,
+     _______ ,KC_WH_D ,KC_MS_L ,KC_MS_D ,KC_MS_R ,_______ ,                   GAMING  ,KC_RCTL ,KC_RGUI ,KC_RALT ,KC_RSFT ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,_______ ,KC_BTN5 ,KC_BTN3 ,KC_BTN4 ,_______ ,_______ , _______ ,KC_MPRV ,KC_VOLD ,KC_VOLU ,KC_MNXT ,KC_MPLY ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
@@ -229,21 +229,16 @@ static bool    alt_pressed = false;
 enum combos {
     CAPS_WORD_COMBO,
     LOCK_COMBO,
-    PB_1_COMBO,
-    GAMING_COMBO,
-    EXIT_GAMING_COMBO,
     COMBO_LENGTH,
 };
 uint16_t COMBO_LEN = COMBO_LENGTH;
 
-const uint16_t PROGMEM caps_word_combo[]   = {SFT_SPC, SFT_BSP, COMBO_END};
-const uint16_t PROGMEM lock_combo[]        = {KC_P, KC_B, COMBO_END};
-const uint16_t PROGMEM pb_1_combo[]        = {MOD_T, KC_G, COMBO_END};
-const uint16_t PROGMEM gaming_combo[]      = {KC_J, KC_L, COMBO_END};
-const uint16_t PROGMEM exit_gaming_combo[] = {KC_Y, KC_U, COMBO_END};
+const uint16_t PROGMEM caps_word_combo[] = {SFT_SPC, SFT_BSP, COMBO_END};
+const uint16_t PROGMEM lock_combo[]      = {KC_P, KC_B, COMBO_END};
 
 combo_t key_combos[] = {
-    [CAPS_WORD_COMBO] = COMBO_ACTION(caps_word_combo), [LOCK_COMBO] = COMBO_ACTION(lock_combo), [PB_1_COMBO] = COMBO_ACTION(pb_1_combo), [GAMING_COMBO] = COMBO_ACTION(gaming_combo), [EXIT_GAMING_COMBO] = COMBO_ACTION(exit_gaming_combo),
+    [CAPS_WORD_COMBO] = COMBO_ACTION(caps_word_combo),
+    [LOCK_COMBO]      = COMBO_ACTION(lock_combo),
 };
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
@@ -258,17 +253,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
                 tap_code16(LGUI(KC_L));
                 rgb_matrix_disable_noeeprom();
                 locked = true;
-            }
-            break;
-        case PB_1_COMBO:
-            if (pressed) {
-                tap_code16(PB_1);
-            }
-            break;
-        case GAMING_COMBO:
-        case EXIT_GAMING_COMBO:
-            if (pressed) {
-                layer_invert(_GAMING);
             }
             break;
     }
@@ -306,10 +290,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     }
 
     switch (keycode) {
-        case LT_PB_1:
-            // pb_1 on tap, alt+f4 on hold
-            if (record->event.pressed && !record->tap.count) {
-                tap_code16(LALT(KC_F4));
+        case PB_1:
+            // HACK see README
+            if (record->event.pressed) {
+                tap_code16(PB_1);
                 return false;
             }
             break;

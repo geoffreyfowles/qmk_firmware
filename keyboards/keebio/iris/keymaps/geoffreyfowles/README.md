@@ -5,4 +5,4 @@
   - e.g. record macro that switches to gaming layer. when running, macro finishes and keyboard maintains gaming color, but is actually back in base layer
 
 ## TODOs
-- figure out why PB_1 is only recognized by ahk when used in a layer tap
+- figure out why PB_1 isn't recognized by ahk when used as a simple keycode
