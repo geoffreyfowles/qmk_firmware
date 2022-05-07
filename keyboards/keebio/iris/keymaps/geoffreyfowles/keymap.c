@@ -58,7 +58,7 @@ enum custom_keycodes {
 
 #define LT_ENT LT(_MOUSE_MEDIA_MISC, KC_ENT)
 #define LT_BSP LT(_SYMBOLS_NAV, KC_BSPC)
-#define LT_DEL LSFT_T(KC_DEL)
+#define LT_DEL RSFT_T(KC_DEL)
 
 #define GAMENUM MO(_GAMING_NUM)
 #define GAME_FN MO(_GAMING_FN)
