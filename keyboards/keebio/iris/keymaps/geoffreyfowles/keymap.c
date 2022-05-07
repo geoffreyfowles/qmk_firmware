@@ -221,7 +221,6 @@ static uint8_t base_val = RGBLIGHT_LIMIT_VAL;
 static uint8_t mod_state;
 static uint8_t osm_state;
 static uint8_t total_mod_state;
-static bool    caps_on     = false;
 static bool    gaming_on   = false;
 static bool    locked      = false;
 static bool    alt_pressed = false;
@@ -229,8 +228,6 @@ static bool    alt_pressed = false;
 void set_layer_color(void) {
     if (get_oneshot_mods()) {
         rgb_matrix_sethsv_noeeprom(142, 255, rgb_matrix_get_val());
-    } else if (caps_on) {
-        rgb_matrix_sethsv_noeeprom(43, 255, rgb_matrix_get_val());
     } else if (gaming_on) {
         rgb_matrix_sethsv_noeeprom(0, 255, rgb_matrix_get_val());
     } else {
@@ -262,63 +259,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 
-        case LT_CAPS:
-            // caps on tap, lock on hold
-            if (record->event.pressed) {
-                if (record->tap.count) {
-                    caps_on = !caps_on;
-                    set_layer_color();
-                    return false;
-                } else {
-                    tap_code16(LGUI(KC_L));
-                    rgb_matrix_disable_noeeprom();
-                    locked = true;
-                }
-            }
-            break;
-        case KC_A ... KC_Z:
-            if (record->event.pressed && caps_on && !total_mod_state) {
-                tap_code16(LSFT(keycode));
-                return false;
-            }
-            break;
-        case MOD_R:
-            if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
-                tap_code16(LSFT(KC_R));
-                return false;
-            }
-            break;
-        case MOD_S:
-            if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
-                tap_code16(LSFT(KC_S));
-                return false;
-            }
-            break;
-        case MOD_T:
-            if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
-                tap_code16(LSFT(KC_T));
-                return false;
-            }
-            break;
-        case MOD_N:
-            if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
-                tap_code16(LSFT(KC_N));
-                return false;
-            }
-            break;
-        case MOD_E:
-            if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
-                tap_code16(LSFT(KC_E));
-                return false;
-            }
-            break;
-        case MOD_I:
-            if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
-                tap_code16(LSFT(KC_I));
-                return false;
-            }
-            break;
-
         case RGB_VAI:
         case RGB_VAD:
             if (record->event.pressed) {
@@ -336,31 +276,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 base_val = rgb_matrix_get_val();
             }
             return false;
-
-        case KC_PDOT:
-        case KC_EQL:
-        case KC_GRV:
-        case KC_LBRC:
-        case KC_RBRC:
-        case KC_BSLS:
-        case MOD_MIN:
-            // ignore shift for these keys
-            if (record->event.pressed) {
-                if (mod_state & MOD_MASK_SHIFT) {
-                    del_mods(MOD_MASK_SHIFT);
-                    register_code(keycode);
-                    set_mods(mod_state);
-                    return false;
-                } else if (osm_state & MOD_MASK_SHIFT) {
-                    del_oneshot_mods(MOD_MASK_SHIFT);
-                    register_code(keycode);
-                    return false;
-                }
-            } else {
-                unregister_code(keycode);
-                return false;
-            }
-            break;
 
         case MOD_LPR:
             if (record->event.pressed && record->tap.count) {
@@ -406,9 +321,9 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         case LT_ESC:
         case SFT_SPC:
         case LT_TAB:
-        case LT_DEL:
-        case SFT_BSP:
         case LT_ENT:
+        case SFT_BSP:
+        case LT_DEL:
             return true;
         default:
             return false;
@@ -419,7 +334,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
         case _GAMING:
             clear_all_mods();
-            caps_on   = false;
             gaming_on = true;
             break;
 
