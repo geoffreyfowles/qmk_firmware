@@ -91,11 +91,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_F13  ,KC_F14  ,KC_F15  ,KC_F16  ,KC_F17  ,KC_F18  ,                   KC_F19  ,KC_F20  ,KC_F21  ,KC_F22  ,KC_F23  ,KC_F24  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_Q    ,KC_W    ,KC_F    ,KC_P    ,KC_B    ,                   KC_J    ,KC_L    ,KC_U    ,KC_Y    ,KC_SCLN ,GAMING  ,
+     _______ ,KC_Q    ,KC_W    ,KC_F    ,KC_P    ,KC_B    ,                   KC_J    ,KC_L    ,KC_U    ,KC_Y    ,KC_SCLN ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,LT_A    ,MOD_R   ,MOD_S   ,MOD_T   ,KC_G    ,                   KC_M    ,MOD_N   ,MOD_E   ,MOD_I   ,KC_O    ,KC_QUOT ,
+     SH_OS   ,LT_A    ,MOD_R   ,MOD_S   ,MOD_T   ,KC_G    ,                   KC_M    ,MOD_N   ,MOD_E   ,MOD_I   ,KC_O    ,SH_OS   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     SH_OS   ,KC_Z    ,KC_X    ,KC_C    ,KC_D    ,KC_V    ,DM_PLY1 , DM_REC1 ,KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,KC_SLSH ,SH_OS   ,
+     _______ ,KC_Z    ,KC_X    ,KC_C    ,KC_D    ,KC_V    ,DM_PLY1 , DM_REC1 ,KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,KC_SLSH ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     LT_ESC  ,SFT_SPC ,LT_TAB  ,          LT_ENT  ,SFT_BSP ,LT_DEL
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
@@ -230,18 +230,20 @@ enum combos {
     CAPS_WORD_COMBO,
     LOCK_COMBO,
     PB_1_COMBO,
+    GAMING_COMBO,
+    EXIT_GAMING_COMBO,
     COMBO_LENGTH,
 };
 uint16_t COMBO_LEN = COMBO_LENGTH;
 
-const uint16_t PROGMEM caps_word_combo[] = {SFT_SPC, SFT_BSP, COMBO_END};
-const uint16_t PROGMEM lock_combo[]      = {KC_P, KC_B, COMBO_END};
-const uint16_t PROGMEM pb_1_combo[]      = {MOD_T, KC_G, COMBO_END};
+const uint16_t PROGMEM caps_word_combo[]   = {SFT_SPC, SFT_BSP, COMBO_END};
+const uint16_t PROGMEM lock_combo[]        = {KC_P, KC_B, COMBO_END};
+const uint16_t PROGMEM pb_1_combo[]        = {MOD_T, KC_G, COMBO_END};
+const uint16_t PROGMEM gaming_combo[]      = {KC_J, KC_L, COMBO_END};
+const uint16_t PROGMEM exit_gaming_combo[] = {KC_Y, KC_U, COMBO_END};
 
 combo_t key_combos[] = {
-    [CAPS_WORD_COMBO] = COMBO_ACTION(caps_word_combo),
-    [LOCK_COMBO]      = COMBO_ACTION(lock_combo),
-    [PB_1_COMBO]      = COMBO_ACTION(pb_1_combo),
+    [CAPS_WORD_COMBO] = COMBO_ACTION(caps_word_combo), [LOCK_COMBO] = COMBO_ACTION(lock_combo), [PB_1_COMBO] = COMBO_ACTION(pb_1_combo), [GAMING_COMBO] = COMBO_ACTION(gaming_combo), [EXIT_GAMING_COMBO] = COMBO_ACTION(exit_gaming_combo),
 };
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
@@ -261,6 +263,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         case PB_1_COMBO:
             if (pressed) {
                 tap_code16(PB_1);
+            }
+            break;
+        case GAMING_COMBO:
+        case EXIT_GAMING_COMBO:
+            if (pressed) {
+                layer_invert(_GAMING);
             }
             break;
     }
