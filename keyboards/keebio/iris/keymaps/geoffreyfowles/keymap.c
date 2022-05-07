@@ -362,6 +362,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
             }
             return false;
 
+        // workaround for basic keycode limitations
         case MOD_UND:
             if (record->event.pressed && record->tap.count) {
                 tap_code16(KC_UNDS);
@@ -394,7 +395,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
                 alt_pressed = true;
             }
             break;
-
         case LT_TAB:
             if (!record->event.pressed && alt_pressed) {
                 unregister_code(KC_LALT);
