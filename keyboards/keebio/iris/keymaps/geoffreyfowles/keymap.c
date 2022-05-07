@@ -269,7 +269,7 @@ enum combos {
 };
 uint16_t COMBO_LEN = COMBO_LENGTH;
 
-const uint16_t PROGMEM caps_word_combo[]         = {MOD_T, MOD_N, COMBO_END};
+const uint16_t PROGMEM caps_word_combo[]         = {LT_SPC, LT_BSP, COMBO_END};
 const uint16_t PROGMEM lock_combo[]              = {KC_P, KC_B, COMBO_END};
 const uint16_t PROGMEM swap_hands_combo[]        = {LT_TAB, DM_PLY1, COMBO_END};
 const uint16_t PROGMEM swap_hands_combo_2[]      = {LT_ENT, DM_REC1, COMBO_END};
