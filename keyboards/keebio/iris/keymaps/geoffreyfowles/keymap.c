@@ -255,6 +255,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 
+        case LT_ESC:
+            // esc on press, alt+f4 on hold
             if (record->event.pressed && !record->tap.count) {
                 tap_code16(LALT(KC_F4));
                 return false;
