@@ -360,7 +360,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     register_code(keycode);
                     return false;
                 }
-
             } else {
                 unregister_code(keycode);
                 return false;
