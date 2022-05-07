@@ -5,7 +5,7 @@ DYNAMIC_MACRO_ENABLE = yes
 PROGRAMMABLE_BUTTON_ENABLE = yes
 SWAP_HANDS_ENABLE = yes
 KEY_LOCK_ENABLE = yes
-COMBOS_ENABLE = yes
+COMBO_ENABLE = yes
 
 # saving space
 COMMAND_ENABLE = no
@@ -13,3 +13,6 @@ CONSOLE_ENABLE = no
 UNICODE_ENABLE = no
 TAP_DANCE_ENABLE = no
 ENCODER_ENABLE = no
+
+# additional features
+SRC += features/caps_word.c

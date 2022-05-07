@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include "features/caps_word.h"
 
 #ifdef SWAP_HANDS_ENABLE
 __attribute__((weak))
@@ -225,9 +226,33 @@ static bool    gaming_on   = false;
 static bool    locked      = false;
 static bool    alt_pressed = false;
 
+enum combos {
+    CAPS_WORD_COMBO,
+    COMBO_LENGTH,
+};
+uint16_t COMBO_LEN = COMBO_LENGTH;
+
+const uint16_t PROGMEM caps_word_combo[] = {SFT_SPC, SFT_BSP, COMBO_END};
+
+combo_t key_combos[] = {
+    [CAPS_WORD_COMBO] = COMBO_ACTION(caps_word_combo),
+};
+
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    switch (combo_index) {
+        case CAPS_WORD_COMBO:
+            if (pressed) {
+                caps_word_set(!caps_word_get());
+            }
+            break;
+    }
+}
+
 void set_layer_color(void) {
     if (get_oneshot_mods()) {
         rgb_matrix_sethsv_noeeprom(142, 255, rgb_matrix_get_val());
+    } else if (caps_word_get()) {
+        rgb_matrix_sethsv_noeeprom(43, 255, rgb_matrix_get_val());
     } else if (gaming_on) {
         rgb_matrix_sethsv_noeeprom(0, 255, rgb_matrix_get_val());
     } else {
@@ -240,10 +265,14 @@ void clear_all_mods(void) {
     unregister_mods(MOD_MASK_CSAG);
 }
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     mod_state       = get_mods();
     osm_state       = get_oneshot_mods();
     total_mod_state = mod_state | osm_state;
+
+    if (!process_caps_word(keycode, record)) {
+        return false;
+    }
 
     if (locked && !(keycode == LT_CAPS && !record->tap.count)) {
         rgb_matrix_enable_noeeprom();
@@ -316,7 +345,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t* record) {
     switch (keycode) {
         case LT_ESC:
         case SFT_SPC:
@@ -351,6 +380,10 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     }
     set_layer_color();
     return state;
+}
+
+void caps_word_set_user(bool active) {
+    set_layer_color();
 }
 
 void dynamic_macro_record_start_user(void) {
