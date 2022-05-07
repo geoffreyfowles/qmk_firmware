@@ -53,9 +53,11 @@ enum custom_keycodes {
 #define SFT_SPC LSFT_T(KC_SPC)
 #define LT_CAPS LT(_NUM_FN,           KC_CAPS)
 
-#define LT_DEL  LT(_SYMBOLS_NAV,   KC_DEL)
+#define LT_DEL  LT(_SYMBOLS_NAV, KC_DEL)
 #define SFT_BSP RSFT_T(KC_BSPC)
-#define LT_ENT  LT(_MOUSE, KC_ENT)
+#define LT_ENT  LT(_MOUSE,       KC_ENT)
+
+#define LT_DOT  LT(_SYMBOLS_NAV, KC_PDOT)
 
 #define OS_LSFT OSM(MOD_LSFT)
 #define OS_LALT OSM(MOD_LALT)
@@ -132,7 +134,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,KC_F12  ,KC_F3   ,KC_F2   ,KC_F1   ,_______ ,_______ , _______ ,_______ ,KC_1    ,KC_2    ,KC_3    ,_______ ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    _______ ,_______ ,_______ ,          KC_PDOT ,_______ ,_______
+                                    _______ ,_______ ,_______ ,          LT_DOT  ,_______ ,_______
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
   ),
 
