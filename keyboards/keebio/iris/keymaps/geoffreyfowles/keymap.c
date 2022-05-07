@@ -40,7 +40,7 @@ enum custom_keycodes {
 #define ESCLOCK LT(0, KC_ESC)
 #define GAMING  TG(_GAMING)
 #define LT_CAPS LT(0, KC_CAPS)
-#define LT_PB_1 LT(0, PB_1)
+#define LT_PB_1 LT(0, PB_1)  // this has to be a layer tap for it to be recognized by ahk for some reason. simply putting the PB_1 keycode in the keymap doesn't seem to work
 
 #define LT_A    LT(_WIN_SHORTCUTS_EXTRA_FN, KC_A)
 #define MOD_R   LALT_T(KC_R)
@@ -264,14 +264,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     rgb_matrix_disable_noeeprom();
                     locked = true;
                 }
-            }
-            break;
-
-        case LT_PB_1:
-            // pb_1 on tap, alt+tab on hold
-            if (record->event.pressed && !record->tap.count) {
-                tap_code16(LALT(KC_TAB));
-                return false;
             }
             break;
 
