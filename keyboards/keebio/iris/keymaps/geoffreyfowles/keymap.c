@@ -29,20 +29,20 @@ enum layer_names {
     _SYMBOLS_NAV,
     _MOUSE_MEDIA_MODS,
     _OSM_SHORTCUTS,
-    _EXTRA_FN,
+    _WIN_SHORTCUTS_EXTRA_FN,
 };
 
 enum custom_keycodes {
     CLR_MOD = SAFE_RANGE,
-    KC_ESC2,  // electric boogaloo
 };
 
 // renamed keycodes
-#define ESCLOCK LT(0, KC_ESC2)  // have to use custom keycode to avoid conflict with LT_ESC
+#define ESCLOCK LT(0, KC_ESC)
 #define GAMING  TG(_GAMING)
 #define LT_CAPS LT(0, KC_CAPS)
-#define LT_ESC  LT(0, KC_ESC)
+#define LT_PB_1 LT(0, PB_1)
 
+#define LT_A    LT(_WIN_SHORTCUTS_EXTRA_FN, KC_A)
 #define MOD_R   LALT_T(KC_R)
 #define MOD_S   LGUI_T(KC_S)
 #define MOD_T   LCTL_T(KC_T)
@@ -50,7 +50,7 @@ enum custom_keycodes {
 #define MOD_E   RGUI_T(KC_E)
 #define MOD_I   RALT_T(KC_I)
 
-#define LT_PB_1 LT(_OSM_SHORTCUTS, PB_1)
+#define LT_ESC  LT(_OSM_SHORTCUTS, KC_ESC)
 #define SFT_SPC LSFT_T(KC_SPC)
 #define LT_TAB  LT(_NUM_FN,        KC_TAB)
 
@@ -65,29 +65,39 @@ enum custom_keycodes {
 #define MOD_LPR LGUI_T(KC_LPRN)
 #define MOD_RPR LCTL_T(KC_RPRN)
 
-#define EXTRAFN TG(_EXTRA_FN)
+#define S_A_TAB LSFT(LALT(KC_TAB))
+#define ALT_TAB LALT(KC_TAB)
+
 #define OS_LSFT OSM(MOD_LSFT)
 #define OS_LALT OSM(MOD_LALT)
 #define OS_LGUI OSM(MOD_LGUI)
 #define OS_LCTL OSM(MOD_LCTL)
 
-#define UNDO   LCTL(KC_Z)
-#define CUT    LCTL(KC_X)
-#define COPY   LCTL(KC_C)
-#define PASTE  LCTL(KC_V)
+#define UNDO    LCTL(KC_Z)
+#define CUT     LCTL(KC_X)
+#define COPY    LCTL(KC_C)
+#define PASTE   LCTL(KC_V)
+
+#define WIN_L   LGUI(KC_LEFT)
+#define WIN_D   LGUI(KC_DOWN)
+#define WIN_U   LGUI(KC_UP)
+#define WIN_R   LGUI(KC_RGHT)
+#define W_SFT_L LGUI(LSFT(KC_LEFT))
+#define W_SFT_R LGUI(LSFT(KC_RGHT))
+#define MICMUTE LGUI(LSFT(KC_A))  // powertoys default
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_COLEMAK_DH] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      ESCLOCK ,KC_P1   ,KC_P2   ,KC_P3   ,KC_P4   ,KC_P5   ,                   KC_P6   ,KC_P7   ,KC_P8   ,KC_P9   ,KC_P0   ,GAMING  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     LT_CAPS ,KC_Q    ,KC_W    ,KC_F    ,KC_P    ,KC_B    ,                   KC_J    ,KC_L    ,KC_U    ,KC_Y    ,KC_SCLN ,KC_BSLS ,
+     LT_CAPS ,KC_Q    ,KC_W    ,KC_F    ,KC_P    ,KC_B    ,                   KC_J    ,KC_L    ,KC_U    ,KC_Y    ,KC_SCLN ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     LT_ESC  ,KC_A    ,MOD_R   ,MOD_S   ,MOD_T   ,KC_G    ,                   KC_M    ,MOD_N   ,MOD_E   ,MOD_I   ,KC_O    ,KC_QUOT ,
+     LT_PB_1 ,LT_A    ,MOD_R   ,MOD_S   ,MOD_T   ,KC_G    ,                   KC_M    ,MOD_N   ,MOD_E   ,MOD_I   ,KC_O    ,KC_QUOT ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      SH_OS   ,KC_Z    ,KC_X    ,KC_C    ,KC_D    ,KC_V    ,DM_PLY1 , DM_REC1 ,KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,KC_SLSH ,SH_OS   ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    LT_PB_1 ,SFT_SPC ,LT_TAB  ,          LT_ENT  ,SFT_BSP ,LT_DEL
+                                    LT_ESC  ,SFT_SPC ,LT_TAB  ,          LT_ENT  ,SFT_BSP ,LT_DEL
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
   ),
 
@@ -153,9 +163,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,KC_PLUS ,KC_EQL  ,KC_LCBR ,KC_RCBR ,_______ ,                   KC_INS  ,KC_PSCR ,KC_SLCK ,KC_PAUS ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_UNDS ,MOD_MIN ,MOD_LPR ,MOD_RPR ,_______ ,                   KC_LEFT ,KC_DOWN ,KC_UP   ,KC_RGHT ,KC_APP  ,_______ ,
+     _______ ,KC_UNDS ,MOD_MIN ,MOD_LPR ,MOD_RPR ,KC_BSLS ,                   KC_LEFT ,KC_DOWN ,KC_UP   ,KC_RGHT ,KC_APP  ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_TILD ,KC_GRV  ,KC_LBRC ,KC_RBRC ,_______ ,_______ , _______ ,KC_HOME ,KC_PGDN ,KC_PGUP ,KC_END  ,_______ ,_______ ,
+     _______ ,KC_TILD ,KC_GRV  ,KC_LBRC ,KC_RBRC ,KC_PIPE ,_______ , _______ ,KC_HOME ,KC_PGDN ,KC_PGUP ,KC_END  ,_______ ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     _______ ,_______ ,_______ ,          _______ ,_______ ,_______
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
@@ -179,7 +189,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,_______ ,_______ ,EXTRAFN ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+     _______ ,_______ ,S_A_TAB ,ALT_TAB ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      CLR_MOD ,OS_LSFT ,OS_LALT ,OS_LGUI ,OS_LCTL ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -189,15 +199,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
   ),
 
-  [_EXTRA_FN] = LAYOUT(
+  [_WIN_SHORTCUTS_EXTRA_FN] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_F23  ,KC_F21  ,KC_F20  ,KC_F19  ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+     _______ ,_______ ,W_SFT_L ,WIN_U   ,W_SFT_R ,_______ ,                   _______ ,KC_F19  ,KC_F20  ,KC_F21  ,KC_F23  ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_F22  ,KC_F18  ,KC_F17  ,KC_F16  ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+     _______ ,_______ ,WIN_L   ,WIN_D   ,WIN_R   ,_______ ,                   _______ ,KC_F16  ,KC_F17  ,KC_F18  ,KC_F22  ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_F24  ,KC_F15  ,KC_F14  ,KC_F13  ,_______ ,_______ , _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+     _______ ,_______ ,_______ ,_______ ,MICMUTE ,_______ ,_______ , _______ ,_______ ,KC_F13  ,KC_F14  ,KC_F15  ,KC_F24  ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     _______ ,_______ ,_______ ,          _______ ,_______ ,_______
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
@@ -257,23 +267,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 
-        case LT_ESC:
-            // esc on tap, alt+f4 on hold
+        case LT_PB_1:
+            // pb_1 on tap, alt+tab on hold
             if (record->event.pressed && !record->tap.count) {
-                tap_code16(LALT(KC_F4));
+                tap_code16(LALT(KC_TAB));
                 return false;
             }
             break;
 
         case LT_CAPS:
-            // caps on tap, alt+tab on hold
+            // caps on tap, alt+f4 on hold
             if (record->event.pressed) {
                 if (record->tap.count) {
                     caps_on = !caps_on;
                     set_layer_color();
                     return false;
                 } else {
-                    tap_code16(LALT(KC_TAB));
+                    tap_code16(LALT(KC_F4));
                     return false;
                 }
             }
@@ -344,6 +354,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_GRV:
         case KC_LBRC:
         case KC_RBRC:
+        case KC_BSLS:
+        case MOD_MIN:
             // ignore shift for these keys
             if (record->event.pressed) {
                 if (mod_state & MOD_MASK_SHIFT) {
@@ -382,13 +394,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 clear_all_mods();
             }
             break;
-
-        case LT_PB_1:
-            if (!record->event.pressed && !record->tap.count) {
-                // key released after holding
-                layer_off(_EXTRA_FN);
-            }
-            break;
     }
 
     return true;
@@ -396,7 +401,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case LT_PB_1:
+        case LT_ESC:
         case SFT_SPC:
         case LT_TAB:
         case LT_DEL:
