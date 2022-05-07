@@ -212,6 +212,7 @@ static uint8_t osm_state;
 static uint8_t total_mod_state;
 static bool    caps_on   = false;
 static bool    gaming_on = false;
+static bool    locked    = false;
 
 void save_current_hsv(void) {
     base_hue = rgb_matrix_get_hue();
@@ -242,7 +243,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     osm_state       = get_oneshot_mods();
     total_mod_state = mod_state | osm_state;
 
+    if (locked && keycode != LOCK) {
+        rgb_matrix_enable_noeeprom();
+        locked = false;
+    }
+
     switch (keycode) {
+        case LOCK:
+            if (record->event.pressed) {
+                rgb_matrix_disable_noeeprom();
+                locked = true;
+            }
+
         case LT_CAPS:
             if (record->event.pressed && record->tap.count) {
                 caps_on = !caps_on;
