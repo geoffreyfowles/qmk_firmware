@@ -28,7 +28,7 @@ enum layer_names {
     _NUM_FN,
     _SYMBOLS_NAV,
     _MOUSE,
-    _OSM_MEDIA_LIGHTS,
+    _OSM_SHORTCUTS_MEDIA_LIGHTS,
     _EXTRA_FN,
 };
 
@@ -42,6 +42,11 @@ enum custom_keycodes {
 #define GAMING  TG(_GAMING)
 #define EXTRAFN TO(_EXTRA_FN)
 
+#define UNDO  LCTL(KC_Z)
+#define CUT   LCTL(KC_X)
+#define COPY  LCTL(KC_C)
+#define PASTE LCTL(KC_V)
+
 #define MOD_S   LALT_T(KC_S)
 #define MOD_D   LGUI_T(KC_D)
 #define MOD_F   LCTL_T(KC_F)
@@ -49,7 +54,7 @@ enum custom_keycodes {
 #define MOD_K   RGUI_T(KC_K)
 #define MOD_L   RALT_T(KC_L)
 
-#define LT_PB_1 LT(_OSM_MEDIA_LIGHTS, PB_1)
+#define LT_PB_1 LT(_OSM_SHORTCUTS_MEDIA_LIGHTS, PB_1)
 #define SFT_SPC LSFT_T(KC_SPC)
 #define LT_CAPS LT(_NUM_FN,           KC_CAPS)
 
@@ -166,15 +171,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
   ),
 
-  [_OSM_MEDIA_LIGHTS] = LAYOUT(
+  [_OSM_SHORTCUTS_MEDIA_LIGHTS] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,RGB_HUI ,RGB_SAI ,RGB_VAI ,HSV_TXT ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,RGB_HUD ,RGB_SAD ,RGB_VAD ,RGB_TOG ,_______ ,
+     _______ ,_______ ,_______ ,EXTRAFN ,_______ ,_______ ,                   _______ ,RGB_HUD ,RGB_SAD ,RGB_VAD ,RGB_TOG ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     CLR_MOD ,OS_LSFT ,OS_LALT ,OS_LGUI ,OS_LCTL ,_______ ,                   KC_MPRV ,KC_VOLD ,KC_VOLU ,KC_MNXT ,KC_MPLY ,_______ ,
+     _______ ,OS_LSFT ,OS_LALT ,OS_LGUI ,OS_LCTL ,_______ ,                   KC_MPRV ,KC_VOLD ,KC_VOLU ,KC_MNXT ,KC_MPLY ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,_______ ,_______ ,_______ ,EXTRAFN ,_______ ,_______ , _______ ,_______ ,KC_BRID ,KC_BRIU ,_______ ,_______ ,_______ ,
+     _______ ,UNDO    ,CUT     ,COPY    ,PASTE   ,_______ ,_______ , _______ ,_______ ,KC_BRID ,KC_BRIU ,_______ ,_______ ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     _______ ,_______ ,_______ ,          _______ ,_______ ,_______
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
