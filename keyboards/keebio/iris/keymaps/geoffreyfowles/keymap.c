@@ -192,7 +192,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      CLR_MOD ,OS_LSFT ,OS_LALT ,OS_LGUI ,OS_LCTL ,_______ ,                   _______ ,KC_F16  ,KC_F17  ,KC_F18  ,KC_F22  ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_ENT  ,UNDO    ,CUT     ,COPY    ,PASTE   ,_______ ,_______ , _______ ,_______ ,KC_F13  ,KC_F14  ,KC_F15  ,KC_F24  ,_______ ,
+     _______ ,UNDO    ,CUT     ,COPY    ,PASTE   ,_______ ,_______ , _______ ,_______ ,KC_F13  ,KC_F14  ,KC_F15  ,KC_F24  ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     _______ ,_______ ,_______ ,          _______ ,KC_BSPC ,_______
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
@@ -439,8 +439,14 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
-void dynamic_macro_record_start_user(void) { rgb_matrix_mode_noeeprom(RGB_MATRIX_BREATHING); }
+void dynamic_macro_record_start_user(void) {
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_BREATHING);
+}
 
-void dynamic_macro_record_end_user(int8_t direction) { rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR); }
+void dynamic_macro_record_end_user(int8_t direction) {
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+}
 
-void oneshot_mods_changed_user(uint8_t mods) { set_layer_color(); }
+void oneshot_mods_changed_user(uint8_t mods) {
+    set_layer_color();
+}
