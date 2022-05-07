@@ -40,7 +40,7 @@ enum custom_keycodes {
 // renamed keycodes
 #define ESCLOCK LT(0, KC_ESC2)  // have to use custom keycode to avoid conflict with LT_ESC
 #define GAMING  TG(_GAMING)
-#define LT_TAB  LT(0, KC_TAB)
+#define LT_CAPS LT(0, KC_CAPS)
 #define LT_ESC  LT(0, KC_ESC)
 
 #define MOD_S   LALT_T(KC_S)
@@ -52,7 +52,7 @@ enum custom_keycodes {
 
 #define LT_PB_1 LT(_OSM_SHORTCUTS, PB_1)
 #define SFT_SPC LSFT_T(KC_SPC)
-#define LT_CAPS LT(_NUM_FN,        KC_CAPS)
+#define LT_TAB  LT(_NUM_FN,        KC_TAB)
 
 #define LT_ENT  LT(_SYMBOLS_NAV,      KC_ENT)
 #define SFT_BSP RSFT_T(KC_BSPC)
@@ -81,13 +81,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      ESCLOCK ,KC_P1   ,KC_P2   ,KC_P3   ,KC_P4   ,KC_P5   ,                   KC_P6   ,KC_P7   ,KC_P8   ,KC_P9   ,KC_P0   ,GAMING  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     LT_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,KC_T    ,                   KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_BSLS ,
+     LT_CAPS ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,KC_T    ,                   KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_BSLS ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      LT_ESC  ,KC_A    ,MOD_S   ,MOD_D   ,MOD_F   ,KC_G    ,                   KC_H    ,MOD_J   ,MOD_K   ,MOD_L   ,KC_SCLN ,KC_QUOT ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      SH_OS   ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,DM_PLY1 , DM_REC1 ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,SH_OS   ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    LT_PB_1 ,SFT_SPC ,LT_CAPS ,          LT_ENT  ,SFT_BSP ,LT_DEL
+                                    LT_PB_1 ,SFT_SPC ,LT_TAB  ,          LT_ENT  ,SFT_BSP ,LT_DEL
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
   ),
 
@@ -257,14 +257,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 
-        case LT_TAB:
-            // tab on tap, alt+tab on hold
-            if (record->event.pressed && !record->tap.count) {
-                tap_code16(LALT(KC_TAB));
-                return false;
-            }
-            break;
-
         case LT_ESC:
             // esc on tap, alt+f4 on hold
             if (record->event.pressed && !record->tap.count) {
@@ -274,10 +266,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
 
         case LT_CAPS:
-            if (record->event.pressed && record->tap.count) {
-                caps_on = !caps_on;
-                set_layer_color();
-                return false;
+            // caps on tap, alt+tab on hold
+            if (record->event.pressed) {
+                if (record->tap.count) {
+                    caps_on = !caps_on;
+                    set_layer_color();
+                    return false;
+                } else {
+                    tap_code16(LALT(KC_TAB));
+                    return false;
+                }
             }
             break;
         case KC_A ... KC_Z:
@@ -400,7 +398,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LT_PB_1:
         case SFT_SPC:
-        case LT_CAPS:
+        case LT_TAB:
         case LT_DEL:
         case SFT_BSP:
         case LT_ENT:
