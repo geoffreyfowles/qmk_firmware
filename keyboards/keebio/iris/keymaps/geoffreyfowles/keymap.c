@@ -91,9 +91,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_F13  ,KC_F14  ,KC_F15  ,KC_F16  ,KC_F17  ,KC_F18  ,                   KC_F19  ,KC_F20  ,KC_F21  ,KC_F22  ,KC_F23  ,KC_F24  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     LT_CAPS ,KC_Q    ,KC_W    ,KC_F    ,KC_P    ,KC_B    ,                   KC_J    ,KC_L    ,KC_U    ,KC_Y    ,KC_SCLN ,GAMING  ,
+     _______ ,KC_Q    ,KC_W    ,KC_F    ,KC_P    ,KC_B    ,                   KC_J    ,KC_L    ,KC_U    ,KC_Y    ,KC_SCLN ,GAMING  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     LT_PB_1 ,LT_A    ,MOD_R   ,MOD_S   ,MOD_T   ,KC_G    ,                   KC_M    ,MOD_N   ,MOD_E   ,MOD_I   ,KC_O    ,KC_QUOT ,
+     _______ ,LT_A    ,MOD_R   ,MOD_S   ,MOD_T   ,KC_G    ,                   KC_M    ,MOD_N   ,MOD_E   ,MOD_I   ,KC_O    ,KC_QUOT ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      SH_OS   ,KC_Z    ,KC_X    ,KC_C    ,KC_D    ,KC_V    ,DM_PLY1 , DM_REC1 ,KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,KC_SLSH ,SH_OS   ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
@@ -228,14 +228,20 @@ static bool    alt_pressed = false;
 
 enum combos {
     CAPS_WORD_COMBO,
+    LOCK_COMBO,
+    PB_1_COMBO,
     COMBO_LENGTH,
 };
 uint16_t COMBO_LEN = COMBO_LENGTH;
 
 const uint16_t PROGMEM caps_word_combo[] = {SFT_SPC, SFT_BSP, COMBO_END};
+const uint16_t PROGMEM lock_combo[]      = {KC_P, KC_B, COMBO_END};
+const uint16_t PROGMEM pb_1_combo[]      = {MOD_T, KC_G, COMBO_END};
 
 combo_t key_combos[] = {
     [CAPS_WORD_COMBO] = COMBO_ACTION(caps_word_combo),
+    [LOCK_COMBO]      = COMBO_ACTION(lock_combo),
+    [PB_1_COMBO]      = COMBO_ACTION(pb_1_combo),
 };
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
@@ -243,6 +249,18 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         case CAPS_WORD_COMBO:
             if (pressed) {
                 caps_word_set(!caps_word_get());
+            }
+            break;
+        case LOCK_COMBO:
+            if (pressed) {
+                tap_code16(LGUI(KC_L));
+                rgb_matrix_disable_noeeprom();
+                locked = true;
+            }
+            break;
+        case PB_1_COMBO:
+            if (pressed) {
+                tap_code16(PB_1);
             }
             break;
     }
@@ -274,7 +292,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
         return false;
     }
 
-    if (locked && !(keycode == LT_CAPS && !record->tap.count)) {
+    if (locked) {
         rgb_matrix_enable_noeeprom();
         locked = false;
     }
