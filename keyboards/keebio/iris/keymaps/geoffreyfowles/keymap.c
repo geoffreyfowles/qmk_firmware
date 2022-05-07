@@ -6,7 +6,7 @@ enum layer_names {
     _GAMING,
     _NUM_FN,
     _SYMBOLS_NAV,
-    _MOUSE_SYMBOLS,
+    _MOUSE,
     _OSM_MEDIA_LIGHTS,
     _EXTRA_FN,
 };
@@ -21,20 +21,20 @@ enum custom_keycodes {
 #define GAMING  TG(_GAMING)
 #define EXTRAFN TO(_EXTRA_FN)
 
-#define MOD_A   LSFT_T(KC_A)
 #define MOD_S   LALT_T(KC_S)
 #define MOD_D   LGUI_T(KC_D)
 #define MOD_F   LCTL_T(KC_F)
 #define MOD_J   RCTL_T(KC_J)
 #define MOD_K   RGUI_T(KC_K)
 #define MOD_L   RALT_T(KC_L)
-#define MOD_SCL RSFT_T(KC_SCLN)
 
 #define LT_PB_1 LT(_OSM_MEDIA_LIGHTS, PB_1)
-#define LT_SPC  LT(_SYMBOLS_NAV,      KC_SPC)
+#define SFT_SPC LSFT_T(KC_SPC)
 #define LT_CAPS LT(_NUM_FN,           KC_CAPS)
-#define LT_BSPC LT(_SYMBOLS_NAV,      KC_BSPC)
-#define LT_ENT  LT(_MOUSE_SYMBOLS,    KC_ENT)
+
+#define LT_DEL  LT(_SYMBOLS_NAV,   KC_DEL)
+#define SFT_BSP RSFT_T(KC_BSPC)
+#define LT_ENT  LT(_MOUSE, KC_ENT)
 
 #define OS_LSFT OSM(MOD_LSFT)
 #define OS_LALT OSM(MOD_LALT)
@@ -52,11 +52,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,KC_T    ,                   KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_BSLS ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_ESC  ,MOD_A   ,MOD_S   ,MOD_D   ,MOD_F   ,KC_G    ,                   KC_H    ,MOD_J   ,MOD_K   ,MOD_L   ,MOD_SCL ,KC_QUOT ,
+     KC_ESC  ,KC_A    ,MOD_S   ,MOD_D   ,MOD_F   ,KC_G    ,                   KC_H    ,MOD_J   ,MOD_K   ,MOD_L   ,KC_SCLN ,KC_QUOT ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      CLR_MOD ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,KC_B    ,DM_PLY1 , DM_REC1 ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,KC_APP  ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    LT_PB_1 ,LT_SPC  ,LT_CAPS ,          OS_LSFT ,LT_BSPC ,LT_ENT
+                                    LT_PB_1 ,SFT_SPC ,LT_CAPS ,          LT_DEL  ,SFT_BSP ,LT_ENT
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
   ),
 
@@ -78,11 +78,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_F11  ,KC_F9   ,KC_F8   ,KC_F7   ,_______ ,                   _______ ,KC_P7   ,KC_P8   ,KC_P9   ,_______ ,_______ ,
+     _______ ,KC_F11  ,KC_F9   ,KC_F8   ,KC_F7   ,_______ ,                   _______ ,KC_7    ,KC_8    ,KC_9    ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_F10  ,KC_F6   ,KC_F5   ,KC_F4   ,_______ ,                   _______ ,KC_P4   ,KC_P5   ,KC_P6   ,KC_P0   ,_______ ,
+     _______ ,KC_F10  ,KC_F6   ,KC_F5   ,KC_F4   ,_______ ,                   _______ ,KC_4    ,KC_5    ,KC_6    ,KC_0    ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_F12  ,KC_F3   ,KC_F2   ,KC_F1   ,_______ ,_______ , _______ ,_______ ,KC_P1   ,KC_P2   ,KC_P3   ,_______ ,_______ ,
+     _______ ,KC_F12  ,KC_F3   ,KC_F2   ,KC_F1   ,_______ ,_______ , _______ ,_______ ,KC_1    ,KC_2    ,KC_3    ,_______ ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     _______ ,_______ ,_______ ,          KC_PDOT ,_______ ,_______
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
@@ -92,9 +92,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_PPLS ,KC_EQL  ,KC_LCBR ,KC_RCBR ,_______ ,                   KC_INS  ,KC_PSCR ,KC_SLCK ,KC_PAUS ,_______ ,_______ ,
+     _______ ,KC_PLUS ,KC_EQL  ,KC_LCBR ,KC_RCBR ,_______ ,                   KC_INS  ,KC_PSCR ,KC_SLCK ,KC_PAUS ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_UNDS ,KC_PMNS ,KC_LPRN ,KC_RPRN ,_______ ,                   KC_LEFT ,KC_DOWN ,KC_UP   ,KC_RGHT ,KC_DEL  ,_______ ,
+     _______ ,KC_UNDS ,KC_MINS ,KC_LPRN ,KC_RPRN ,_______ ,                   KC_LEFT ,KC_DOWN ,KC_UP   ,KC_RGHT ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,KC_TILD ,KC_GRV  ,KC_LBRC ,KC_RBRC ,_______ ,_______ , _______ ,KC_HOME ,KC_PGDN ,KC_PGUP ,KC_END  ,_______ ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
@@ -102,18 +102,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
   ),
 
-  [_MOUSE_SYMBOLS] = LAYOUT(
+  [_MOUSE] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,KC_WH_U ,KC_WH_L ,KC_MS_U ,KC_WH_R ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_WH_D ,KC_MS_L ,KC_MS_D ,KC_MS_R ,_______ ,                   _______ ,KC_PERC ,KC_CIRC ,KC_AMPR ,KC_ASTR ,_______ ,
+     _______ ,KC_WH_D ,KC_MS_L ,KC_MS_D ,KC_MS_R ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,_______ ,KC_BTN5 ,KC_BTN3 ,KC_BTN4 ,_______ ,_______ , _______ ,_______ ,KC_EXLM ,KC_AT   ,KC_HASH ,KC_DLR  ,_______ ,
+     _______ ,_______ ,KC_BTN5 ,KC_BTN3 ,KC_BTN4 ,_______ ,_______ , _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     _______ ,KC_BTN1 ,KC_BTN2 ,          _______ ,_______ ,_______
-                                // └───────┴────────┴────────┘         └────────┴────────┴────────┘
+                                // └────────┴────────┴────────┘         └────────┴────────┴────────┘
   ),
 
   [_OSM_MEDIA_LIGHTS] = LAYOUT(
@@ -166,7 +166,7 @@ void save_current_hsv(void) {
 
 void set_layer_color(void) {
     if (get_oneshot_mods()) {
-        rgb_matrix_sethsv_noeeprom(21, 255, rgb_matrix_get_val());
+        rgb_matrix_sethsv_noeeprom(127, 255, rgb_matrix_get_val());
     } else if (caps_on) {
         rgb_matrix_sethsv_noeeprom(43, 255, rgb_matrix_get_val());
     } else if (gaming_on) {
@@ -197,12 +197,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_A ... KC_Z:
             if (record->event.pressed && caps_on && !total_mod_state) {
                 tap_code16(LSFT(keycode));
-                return false;
-            }
-            break;
-        case MOD_A:
-            if (record->event.pressed && record->tap.count && caps_on && !total_mod_state) {
-                tap_code16(LSFT(KC_A));
                 return false;
             }
             break;
@@ -279,7 +273,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 
-        case KC_P1 ... KC_PDOT:
+        case KC_PDOT:
         case KC_EQL:
         case KC_GRV:
         case KC_LBRC:
@@ -322,9 +316,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LT_PB_1:
-        case LT_SPC:
+        case SFT_SPC:
         case LT_CAPS:
-        case LT_BSPC:
+        case LT_DEL:
+        case SFT_BSP:
         case LT_ENT:
             return true;
         default:
