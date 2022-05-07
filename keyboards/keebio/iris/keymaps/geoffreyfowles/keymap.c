@@ -40,7 +40,7 @@ enum custom_keycodes {
 // renamed keycodes
 #define LOCK    LGUI(KC_L)
 #define GAMING  TG(_GAMING)
-#define EXTRAFN TO(_EXTRA_FN)
+#define EXTRAFN TG(_EXTRA_FN)
 
 #define CA_TAB LCTL(LALT(KC_TAB))
 #define UNDO   LCTL(KC_Z)
