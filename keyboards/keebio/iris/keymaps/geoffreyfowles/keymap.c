@@ -264,6 +264,7 @@ enum combos {
     MODS_LAYER_COMBO,
     SWAP_HANDS_COMBO_GAMING,
     ALT_GAMING_COMBO,
+    RESET_COMBO,
     COMBO_LENGTH,
 };
 uint16_t COMBO_LEN = COMBO_LENGTH;
@@ -275,6 +276,7 @@ const uint16_t PROGMEM swap_hands_combo_2[]      = {LT_ENT, DM_REC1, COMBO_END};
 const uint16_t PROGMEM mods_layer_combo[]        = {LT_ESC, LT_SPC, COMBO_END};
 const uint16_t PROGMEM swap_hands_combo_gaming[] = {GAMENUM, DM_PLY1, COMBO_END};
 const uint16_t PROGMEM alt_gaming_combo[]        = {GAME_FN, KC_SPC, COMBO_END};
+const uint16_t PROGMEM reset_combo[]             = {LT_ESC, LT_SPC, LT_TAB, COMBO_END};
 
 // clang-format off
 combo_t key_combos[] = {
@@ -285,6 +287,7 @@ combo_t key_combos[] = {
     [MODS_LAYER_COMBO]        = COMBO(mods_layer_combo, MO(_MODS)),
     [SWAP_HANDS_COMBO_GAMING] = COMBO(swap_hands_combo_gaming, MO(_GAMING_MIRRORED)),
     [ALT_GAMING_COMBO]        = COMBO(alt_gaming_combo, KC_LALT),
+    [RESET_COMBO]             = COMBO(reset_combo, RESET),
 };
 // clang-format on
 
