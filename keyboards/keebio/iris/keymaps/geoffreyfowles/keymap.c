@@ -24,6 +24,7 @@ enum layer_names {
     _BASE = 0,
     _BASE_MIRRORED,
     _GAMING,
+    _GAMING_MIRRORED,
     _GAMING_NUM,
     _GAMING_FN,
     _NUM_FN,
@@ -118,13 +119,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
      _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_LOCK ,KC_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,                   KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,_______ ,
+     _______ ,KC_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,                   KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_LALT ,KC_LSFT ,KC_A    ,KC_S    ,KC_D    ,KC_F    ,                   KC_H    ,KC_J    ,KC_K    ,KC_L    ,KC_SCLN ,_______ ,
+     _______ ,KC_LSFT ,KC_A    ,KC_S    ,KC_D    ,KC_F    ,                   KC_H    ,KC_J    ,KC_K    ,KC_L    ,KC_SCLN ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     SH_OS   ,KC_LCTL ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,_______ , _______ ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,_______ ,
+     _______ ,KC_LCTL ,KC_Z    ,KC_X    ,KC_C    ,KC_V    ,_______ , _______ ,KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,_______ ,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     GAME_FN ,KC_SPC  ,GAMENUM ,          _______ ,KC_BSPC ,_______
+                                // └────────┴────────┴────────┘         └────────┴────────┴────────┘
+  ),
+
+  [_GAMING_MIRRORED] = LAYOUT(
+  //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
+     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+  //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
+     _______ ,KC_P    ,KC_O    ,KC_I    ,KC_U    ,KC_Y    ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+  //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
+     _______ ,KC_SCLN ,KC_L    ,KC_K    ,KC_J    ,KC_H    ,                   _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+  //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+     _______ ,KC_SLSH ,KC_DOT  ,KC_COMM ,KC_M    ,KC_N    ,_______ , _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+  //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘└───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
+                                    _______ ,KC_BSPC ,_______ ,          _______ ,_______ ,_______
                                 // └────────┴────────┴────────┘         └────────┴────────┴────────┘
   ),
 
@@ -232,33 +247,38 @@ static uint8_t base_hue = 106;
 static uint8_t base_sat = 255;
 static uint8_t base_val = RGBLIGHT_LIMIT_VAL;
 
-static uint8_t mod_state;
-static uint8_t osm_state;
-static uint8_t total_mod_state;
-static bool    gaming_on   = false;
-static bool    locked      = false;
-static bool    alt_pressed = false;
+static bool gaming_on   = false;
+static bool locked      = false;
+static bool alt_pressed = false;
 
 enum combos {
     CAPS_WORD_COMBO,
     LOCK_COMBO,
     SWAP_HANDS_COMBO,
     SWAP_HANDS_COMBO_2,
+    SWAP_HANDS_COMBO_GAMING,
+    ALT_GAMING_COMBO,
     COMBO_LENGTH,
 };
 uint16_t COMBO_LEN = COMBO_LENGTH;
 
-const uint16_t PROGMEM caps_word_combo[]    = {SFT_SPC, SFT_BSP, COMBO_END};
-const uint16_t PROGMEM lock_combo[]         = {KC_P, KC_B, COMBO_END};
-const uint16_t PROGMEM swap_hands_combo[]   = {LT_TAB, DM_PLY1, COMBO_END};
-const uint16_t PROGMEM swap_hands_combo_2[] = {LT_ENT, DM_REC1, COMBO_END};
+const uint16_t PROGMEM caps_word_combo[]         = {SFT_SPC, SFT_BSP, COMBO_END};
+const uint16_t PROGMEM lock_combo[]              = {KC_P, KC_B, COMBO_END};
+const uint16_t PROGMEM swap_hands_combo[]        = {LT_TAB, DM_PLY1, COMBO_END};
+const uint16_t PROGMEM swap_hands_combo_2[]      = {LT_ENT, DM_REC1, COMBO_END};
+const uint16_t PROGMEM swap_hands_combo_gaming[] = {GAMENUM, DM_PLY1, COMBO_END};
+const uint16_t PROGMEM alt_gaming_combo[]        = {GAME_FN, KC_SPC, COMBO_END};
 
+// clang-format off
 combo_t key_combos[] = {
-    [CAPS_WORD_COMBO]    = COMBO_ACTION(caps_word_combo),
-    [LOCK_COMBO]         = COMBO_ACTION(lock_combo),
-    [SWAP_HANDS_COMBO]   = COMBO_ACTION(swap_hands_combo),
-    [SWAP_HANDS_COMBO_2] = COMBO_ACTION(swap_hands_combo_2),
+    [CAPS_WORD_COMBO]         = COMBO_ACTION(caps_word_combo),
+    [LOCK_COMBO]              = COMBO_ACTION(lock_combo),
+    [SWAP_HANDS_COMBO]        = COMBO(swap_hands_combo, MO(_BASE_MIRRORED)),
+    [SWAP_HANDS_COMBO_2]      = COMBO(swap_hands_combo_2, MO(_BASE_MIRRORED)),
+    [SWAP_HANDS_COMBO_GAMING] = COMBO(swap_hands_combo_gaming, MO(_GAMING_MIRRORED)),
+    [ALT_GAMING_COMBO]        = COMBO(alt_gaming_combo, KC_LALT),
 };
+// clang-format on
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
     switch (combo_index) {
@@ -272,14 +292,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
                 tap_code16(LGUI(KC_L));
                 rgb_matrix_disable_noeeprom();
                 locked = true;
-            }
-            break;
-        case SWAP_HANDS_COMBO:
-        case SWAP_HANDS_COMBO_2:
-            if (pressed) {
-                layer_on(_BASE_MIRRORED);
-            } else {
-                layer_off(_BASE_MIRRORED);
             }
             break;
     }
@@ -303,10 +315,6 @@ void clear_all_mods(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
-    mod_state       = get_mods();
-    osm_state       = get_oneshot_mods();
-    total_mod_state = mod_state | osm_state;
-
     if (!process_caps_word(keycode, record)) {
         return false;
     }
@@ -399,6 +407,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t* record) {
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
         case _GAMING:
+        case _GAMING_MIRRORED:
             clear_all_mods();
             gaming_on = true;
             break;
