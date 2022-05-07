@@ -244,6 +244,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 rgb_matrix_disable_noeeprom();
                 locked = true;
             }
+            break;
 
         case LT_TAB:
             // tab on press, alt+tab on hold
