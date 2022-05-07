@@ -302,14 +302,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     }
 }
 
-uint16_t get_combo_term(uint16_t index, combo_t* combo) {
-    switch (index) {
-        case CAPS_WORD_COMBO:
-            return 25;
-    }
-    return COMBO_TERM;
-}
-
 void set_layer_color(void) {
     if (get_oneshot_mods()) {
         rgb_matrix_sethsv_noeeprom(142, 255, rgb_matrix_get_val());

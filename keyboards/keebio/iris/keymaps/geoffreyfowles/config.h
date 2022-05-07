@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
 // for combos
-#define COMBO_TERM_PER_COMBO
+#define COMBO_TERM 25
 
 // rgb matrix animations
 #define ENABLE_RGB_MATRIX_BREATHING
