@@ -35,12 +35,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MOUSEKEY_TIME_TO_MAX 64
 
 // for home row modifiers
-#define TAPPING_TERM 250
+#define TAPPING_TERM 200
 #define IGNORE_MOD_TAP_INTERRUPT
 #define TAPPING_FORCE_HOLD
 
 // for layer tap-hold keys
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+
+// for combos
+#define COMBO_TERM_PER_COMBO
 
 // rgb matrix animations
 #define ENABLE_RGB_MATRIX_BREATHING
