@@ -33,12 +33,12 @@ enum layer_names {
 };
 
 enum custom_keycodes {
-    HSV_TXT = SAFE_RANGE,
-    CLR_MOD,
+    CLR_MOD = SAFE_RANGE,
+    KC_ESC2,  // electric boogaloo
 };
 
 // renamed keycodes
-#define LOCK    LGUI(KC_L)
+#define ESCLOCK LT(0, KC_ESC2)  // have to use custom keycode to avoid conflict with LT_ESC
 #define GAMING  TG(_GAMING)
 #define EXTRAFN TG(_EXTRA_FN)
 #define LT_TAB  LT(0, KC_TAB)
@@ -75,7 +75,7 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     LOCK    ,KC_P1   ,KC_P2   ,KC_P3   ,KC_P4   ,KC_P5   ,                   KC_P6   ,KC_P7   ,KC_P8   ,KC_P9   ,KC_P0   ,GAMING  ,
+     ESCLOCK ,KC_P1   ,KC_P2   ,KC_P3   ,KC_P4   ,KC_P5   ,                   KC_P6   ,KC_P7   ,KC_P8   ,KC_P9   ,KC_P0   ,GAMING  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      LT_TAB  ,KC_Q    ,KC_W    ,KC_E    ,KC_R    ,KC_T    ,                   KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_BSLS ,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
@@ -234,21 +234,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     osm_state       = get_oneshot_mods();
     total_mod_state = mod_state | osm_state;
 
-    if (locked && keycode != LOCK) {
+    if (locked && !(keycode == ESCLOCK && !record->tap.count)) {
         rgb_matrix_enable_noeeprom();
         locked = false;
     }
 
     switch (keycode) {
-        case LOCK:
+        case ESCLOCK:
+            // esc on tap, lock on hold
             if (record->event.pressed) {
-                rgb_matrix_disable_noeeprom();
-                locked = true;
+                if (record->tap.count) {
+                    tap_code(KC_ESC);
+                } else {
+                    tap_code16(LGUI(KC_L));
+                    rgb_matrix_disable_noeeprom();
+                    locked = true;
+                }
             }
             break;
 
         case LT_TAB:
-            // tab on press, alt+tab on hold
+            // tab on tap, alt+tab on hold
             if (record->event.pressed && !record->tap.count) {
                 tap_code16(LALT(KC_TAB));
                 return false;
@@ -256,7 +262,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
 
         case LT_ESC:
-            // esc on press, alt+f4 on hold
+            // esc on tap, alt+f4 on hold
             if (record->event.pressed && !record->tap.count) {
                 tap_code16(LALT(KC_F4));
                 return false;
